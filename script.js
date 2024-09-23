@@ -12,12 +12,20 @@ function generateImage() {
         return;
     }
 
-    fetch('https://your-cloudflare-ai-endpoint', {
+    const requestBody = {
+        messages: [
+            { role: "system", content: "You are a friendly assistant that helps write stories" },
+            { role: "user", content: prompt }
+        ]
+    };
+
+    fetch('https://api.cloudflare.com/client/v4/accounts/YOUR_ACCOUNT_ID/ai/run/@cf/stabilityai/stable-diffusion-xl-base-1.0', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer YOUR_API_TOKEN'
         },
-        body: JSON.stringify({ prompt: prompt })
+        body: JSON.stringify(requestBody)
     })
     .then(response => response.json())
     .then(data => {
