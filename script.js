@@ -7,31 +7,37 @@ document.getElementById('prompt-input').addEventListener('keypress', function(ev
 
 function generateImage() {
     const prompt = document.getElementById('prompt-input').value;
+    const errorMessageElement = document.getElementById('error-message');
+    const resultImageElement = document.getElementById('result-image');
+
     if (!prompt) {
         alert('Please enter a prompt');
         return;
     }
 
-    const requestBody = {
-        messages: [
-            { role: "system", content: "You are a friendly assistant that helps write stories" },
-            { role: "user", content: prompt }
-        ]
-    };
+    const requestBody = { prompt };
 
-    fetch('https://api.cloudflare.com/client/v4/accounts/YOUR_ACCOUNT_ID/ai/run/@cf/stabilityai/stable-diffusion-xl-base-1.0', {
+    fetch('https://text-to-image.vford.workers.dev/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer YOUR_API_TOKEN'
         },
         body: JSON.stringify(requestBody)
     })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('result-image').src = data.imageUrl;
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text); });
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        const imageUrl = URL.createObjectURL(blob);
+        resultImageElement.src = imageUrl;
+        errorMessageElement.textContent = ''; // Clear any previous error message
     })
     .catch(error => {
         console.error('Error:', error);
+        errorMessageElement.textContent = 'Error: ' + error.message;
+        resultImageElement.src = 'default-image.png'; // Set to default image
     });
 }
