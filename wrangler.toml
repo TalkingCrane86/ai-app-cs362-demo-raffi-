@@ -1,8 +1,0 @@
-name = "app-text-to-image"
-type = "javascript"
-
-[build]
-command = "npm run build" # if you have a build step
-
-[env.production]
-main = "worker.js"
