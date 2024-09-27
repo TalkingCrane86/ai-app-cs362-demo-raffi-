@@ -4,17 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Image Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div id="error-message" style="color: red;"></div>
-        <img id="result-image" src="default-image.png" alt="Default Image">
-        <div class="search-box">
-            <input type="text" id="prompt-input" placeholder="Enter your prompt here">
-            <button id="generate-button">Generate Image</button>
+    <div id="background-container"></div>
+    <div class="overlay"></div>
+    <div class="container text-center">
+        <div id="error-message" class="text-danger"></div>
+        <img id="result-image" src="default-image.png" alt="Default Image" class="img-fluid my-3">
+        <div class="input-group mb-3">
+            <input type="text" id="prompt-input" class="form-control" placeholder="Enter your prompt here">
+            <div class="input-group-append">
+                <button id="generate-button" class="btn btn-primary">Generate Image</button>
+            </div>
         </div>
     </div>
+    <script src="background.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
